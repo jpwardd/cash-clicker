@@ -53,7 +53,7 @@ console.log(pocketMoney)
   const hireBlackHatHackers = () => {
     if (pocketMoney > blackHatPrice) {
       setPocketMoney(pocketMoney - blackHatPrice);
-      setEarningsPerSecond(earningsPerSecond + 30)
+      setEarningsPerSecond(earningsPerSecond + 50)
       setBlackHatPrice(blackHatPrice * 1.5)
       setBlackHatHackers(blackHatHackers + 1)
     }
@@ -91,7 +91,7 @@ console.log(pocketMoney)
       <hr />
 
       <h1>Black Hat Hacker</h1>
-      <h3>Earnings: $30/Second</h3>
+      <h3>Earnings: $50/Second</h3>
       <h3>Quantity: <span>{blackHatHackers}</span></h3>
       <h3 style={{color: 'green'}}>Price: ${blackHatPrice}</h3>
       <button onClick={hireBlackHatHackers}>
