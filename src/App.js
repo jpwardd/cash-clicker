@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider, CSSReset, Button, Heading, Box, Grid, Badge, ColorModeProvider, useColorMode } from '@chakra-ui/core';
 
 
 
 function App() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const [pocketMoney, setPocketMoney] = useState(0)
   const [earningsPerSecond, setEarningsPerSecond] = useState(0)
 
@@ -16,6 +19,8 @@ function App() {
 
   const [blackHatPrice, setBlackHatPrice] = useState(1000)
   const [blackHatHackers, setBlackHatHackers] = useState(0)
+
+  const bgColor = { light: "red.500", dark: "red.400" };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,45 +65,59 @@ console.log(pocketMoney)
   }
 
   return (
+    <ThemeProvider>
+      <ColorModeProvider>
+    <CSSReset />
     <div>
       <h1 style={{color: 'green'}}>Cash Clicker</h1>
+      <Button onClick={toggleColorMode}>
+        Toggle {colorMode === "light" ? "Dark" : "Light"}
+      </Button>
 
-      <h1>Pocket Money</h1>
-      <h1>${pocketMoney}</h1>
-      <h4>Earnings per second: <span>${earningsPerSecond}</span></h4>
-      <h1>Welfare Line</h1>
-      <button onClick={increasePocketMoney}>
-        Click me
-      </button>
-      <hr />
+      <Heading textAlign="center" as="h1">Pocket Money</Heading>
+      <Heading textAlign="center" as="h1" color="green.500">${pocketMoney}</Heading>
+      <Grid templateColumns="repeat(1, 1fr)" justifyItems="center" gap={6} >
 
-      <h1>Low-Level Weed Dealer </h1>
-      <h3>Earnings: $2/Second</h3>
-      <h3>Quantity: <span>{weedDealers}</span></h3>
-      <h3 style={{color: 'green'}}>Price: ${weedDealerPrice} </h3>
-      <button onClick={hireWeedDealers}>
-        Hire
-      </button>
-      <hr />
+      <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+        <Heading>Welfare Line</Heading>
+        <Badge color={bgColor}>Earnings per second</Badge> <span>${earningsPerSecond}</span>
+        <Button onClick={increasePocketMoney}>
+          Click me
+        </Button>
+      </Box>
+      <Box w="50%"  borderWidth="1px" rounded="lg" padding={8}>
+        <Heading>Low-Level Weed Dealer </Heading>
+        <Badge color={bgColor}>Earnings Per Second</Badge> <span>$2</span>
+        <h3>Quantity: <span>{weedDealers}</span></h3>
+        <h3 style={{color: 'green'}}>Price: ${weedDealerPrice} </h3>
+        <Button onClick={hireWeedDealers}>
+          Hire
+        </Button>
+      </Box>
 
-      <h1>Black Market Organ Dealer</h1>
-      <h3>Earnings: $10/Second</h3>
-      <h3>Quantity: <span>{organDealers}</span></h3>
-      <h3 style={{color: 'green'}}>Price: ${organDealerPrice}</h3>
-      <button onClick={hireOrganDealers}>
-        Hire
-      </button>
-      <hr />
+      <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+        <Heading>Black Market Organ Dealer</Heading>
+        <Badge color={bgColor}>Earnings Per Second</Badge> <span>$10</span>
+        <h3>Quantity: <span>{organDealers}</span></h3>
+        <h3 style={{color: 'green'}}>Price: ${organDealerPrice}</h3>
+        <Button onClick={hireOrganDealers}>
+          Hire
+        </Button>
+      </Box>
 
-      <h1>Black Hat Hacker</h1>
-      <h3>Earnings: $30/Second</h3>
+    <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+      <Heading>Black Hat Hacker</Heading>
+      <Badge color={bgColor}>Earnings Per Second</Badge> <span>$30</span>
       <h3>Quantity: <span>{blackHatHackers}</span></h3>
       <h3 style={{color: 'green'}}>Price: ${blackHatPrice}</h3>
-      <button onClick={hireBlackHatHackers}>
+      <Button onClick={hireBlackHatHackers}>
         Hire
-      </button>
-      <hr />
+      </Button>
+    </Box>
+    </Grid>
     </div>
+      </ColorModeProvider>
+    </ThemeProvider>
   );
 }
 
