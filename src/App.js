@@ -7,7 +7,7 @@ function App() {
   const [pocketMoney, setPocketMoney] = useState(0)
   const [earningsPerSecond, setEarningsPerSecond] = useState(0)
 
-  const [weedDealerPrice, setWeedDealerPrice] = useState(25)
+  const [weedDealerPrice, setWeedDealerPrice] = useState(15)
   const [weedDealers, setWeedDealers] = useState(0)
 
   const [organDealerPrice, setOrganDealerPrice] = useState(100)
@@ -20,8 +20,10 @@ function App() {
   }, 10)
 
   const increasePocketMoney = () => {
-    return setPocketMoney(pocketMoney + 0.25)
+    return setPocketMoney(pocketMoney + 0.50)
   }
+
+console.log(pocketMoney)
 
   const hireWeedDealers = () => {
     if (pocketMoney >= weedDealerPrice) {
