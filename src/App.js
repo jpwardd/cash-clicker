@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import logo from './logo.svg';
 import './App.css';
 import {useInterval} from './hooks/useInterval'
+import { ThemeProvider, Box, Grid, Heading, Button, Badge, Stack, Image, CSSReset } from '@chakra-ui/core'
+import begger from '../src/assets/images/begger.jpg'
 
 function App() {
   const [pocketMoney, setPocketMoney] = useState(0)
@@ -15,12 +18,18 @@ function App() {
 
   const [blackHatPrice, setBlackHatPrice] = useState(1000)
   const [blackHatHackers, setBlackHatHackers] = useState(0)
+
+  const [showBegAmount, setShowBegAmount] = useState(false)
+
+  const [begAmount, setBegAmount] = useState(0.5)
+
   useInterval(() => {
     setPocketMoney(pocketMoney + earningsPerSecond)
   }, 10)
 
   const increasePocketMoney = () => {
-    return setPocketMoney(pocketMoney + 0.50)
+    setShowBegAmount(true)
+    return setPocketMoney(pocketMoney + begAmount)
   }
 
 console.log(pocketMoney)
@@ -60,46 +69,77 @@ console.log(pocketMoney)
     return (number * 100).toFixed(2);
    }
 
+  //  const onTapStart = (event, info) => {
+  //     console.log(event)
+  //     if (event.type === 'pointerdown') {
+  //       setShowBegAmount(true)
+  //     } else {
+  //       setShowBegAmount(false)
+  //     }
+  //  }
+   const onClick = (event) => {
+    setShowBegAmount(true)
+   }
+   const onMouseUp = (event) => {
+      console.log(event)
+    setShowBegAmount(false)
+   }
+
+   console.log(showBegAmount)
   return (
-    <div>
-      <h1 style={{color: 'green'}}>Cash Clicker</h1>
+    <ThemeProvider>
+      <CSSReset />
+         <Heading textAlign="center" style={{color: 'green'}}>Cash Clicker</Heading>
+      <Grid gridTemplateColumns="repeat(1, 1fr)" gap={6} justifyItems="center">
+        <Box mt={6}>
+          <Heading>Pocket Money</Heading>
+          <h1>${formatMoney(pocketMoney)}</h1>
+          <h4>Earnings per hour: <span>${formatEarnings(earningsPerSecond)}</span></h4>
+        </Box>
 
-      <h1>Pocket Money</h1>
-      <h1>${formatMoney(pocketMoney)}</h1>
-      <h4>Earnings per hour: <span>${formatEarnings(earningsPerSecond)}</span></h4>
-      <h1>Beg</h1>
-      <button onClick={increasePocketMoney}>
-        Click me
-      </button>
-      <hr />
 
-      <h1>Low-Level Weed Dealer </h1>
-      <h3>Earnings: $1/Hour</h3>
-      <h3>Quantity: <span>{weedDealers}</span></h3>
-      <h3 style={{color: 'green'}}>Price: ${formatMoney(weedDealerPrice)}</h3>
-      <button onClick={hireWeedDealers}>
-        Hire
-      </button>
-      <hr />
+        <Box  borderWidth="1px" rounded="lg" padding={8}>
+          <h1>Beg</h1>
+          <motion.div whileTap={{ scale: 0.92 }}  onMouseDown={onClick} onMouseUp={onMouseUp}>
+            {showBegAmount && <h1>{begAmount}</h1>}
+            <img onClick={increasePocketMoney} src={begger} style={{width: '200px', height: '200px'}}/>
 
-      <h1>Black Market Organ Dealer</h1>
-      <h3>Earnings: $5/Hour</h3>
-      <h3>Quantity: <span>{organDealers}</span></h3>
-      <h3 style={{color: 'green'}}>Price: ${formatMoney(organDealerPrice)}</h3>
-      <button onClick={hireOrganDealers}>
-        Hire
-      </button>
-      <hr />
+          </motion.div>
 
-      <h1>Black Hat Hacker</h1>
-      <h3>Earnings: $10/Hour</h3>
-      <h3>Quantity: <span>{blackHatHackers}</span></h3>
-      <h3 style={{color: 'green'}}>Price: ${formatMoney(blackHatPrice)}</h3>
-      <button onClick={hireBlackHatHackers}>
-        Hire
-      </button>
-      <hr />
-    </div>
+        </Box>
+
+        <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+
+          <h1>Low-Level Weed Dealer </h1>
+          <h3>Earnings: $1/Hour</h3>
+          <h3>Quantity: <span>{weedDealers}</span></h3>
+          <Badge variantColor="green">Price: ${formatMoney(weedDealerPrice)}</Badge>
+          <Button onClick={hireWeedDealers}>
+            Hire
+          </Button>
+        </Box>
+
+        <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+
+          <h1>Black Market Organ Dealer</h1>
+          <h3>Earnings: $5/Hour</h3>
+          <h3>Quantity: <span>{organDealers}</span></h3>
+          <Badge variantColor="green">Price: ${formatMoney(organDealerPrice)}</Badge>
+          <Button onClick={hireOrganDealers}>
+            Hire
+          </Button>
+        </Box>
+        <Box w="50%" borderWidth="1px" rounded="lg" padding={8}>
+          <h1>Black Hat Hacker</h1>
+          <h3>Earnings: $10/Hour</h3>
+          <h3>Quantity: <span>{blackHatHackers}</span></h3>
+            <Badge variantColor="green">Price: <span>${formatMoney(blackHatPrice)}</span></Badge>
+          <Button onClick={hireBlackHatHackers}>
+            Hire
+          </Button>
+        </Box>
+      </Grid>
+    </ThemeProvider>
   );
 }
 
